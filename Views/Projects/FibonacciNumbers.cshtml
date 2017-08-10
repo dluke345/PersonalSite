@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "Fibonacci Numbers";
+}
+
+<h1>Fibonacci Numbers</h1>
+<h3>This will return the sum of all odd Fibonacci numbers that are less than or equal your number.</h3>
+
+<div class="wrapper">
+    <p>Type a positive number</p>
+    <input class="number1" type="number" placeholder="Number" onkeypress="return isNumber(event)" />
+    <button class="clicky" type="submit">Submit</button>
+    <br />
+    <div>
+        <p id="result" class="result"></p>
+    </div>
+</div>
+
+<style>
+    .wrapper {
+        max-width: 500px;
+        width: 100%;
+        text-align: center;
+        position: relative;
+        margin: 8% auto auto auto;
+    }
+</style>
+
+
+<script>
+    $(".clicky").on('click', function () {
+        var input = $(".number1");
+        var search = parseInt(input.val());
+        if (search !== undefined || search !== "" || search !== null) {
+            $(".result").html(" ");
+
+            function sumFibs(num) {
+                var prevFibonacciNum = 0,
+                    currentFibonacciNum = 1;
+                var result = 0;
+
+                while (currentFibonacciNum <= num) {
+                    if (currentFibonacciNum % 2 !== 0) {
+                        result += currentFibonacciNum;
+                    }
+
+                    //Move on to the next number
+                    var nextFibonacciNum = currentFibonacciNum + prevFibonacciNum;
+                    prevFibonacciNum = currentFibonacciNum;
+                    currentFibonacciNum = nextFibonacciNum;
+                }
+
+                $("#result").append(result);
+            }
+
+            sumFibs(search);
+        }
+    });
+</script>

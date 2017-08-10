@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewBag.Title = "Least Common Multiple";
+}
+
+<h1>@ViewBag.Title</h1>
+<h3>Finds the smallest common multiple of 2 numbers that can be evenly divided by both, as well as by all sequential numbers in the range between these parameters.</h3>
+
+<div class="wrapper">
+    <p>Type a different <strong>positive</strong> number in each box. Beware large numbers may crash the browser, or have a lag time before you see a result.</p>
+    <input class="number1" type="number" placeholder="Number" onkeypress="return isNumber(event)" />
+    <input class="number2" type="number" placeholder="Number" onkeypress="return isNumber(event)" />
+    <button class="clicky" type="submit">Submit</button>
+    <br />
+    <div>
+        <p id="result" class="result"></p>
+    </div>
+</div>
+
+<style>
+    .wrapper {
+        max-width: 500px;
+        width: 100%;
+        text-align: center;
+        position: relative;
+        margin: 8% auto auto auto;
+    }
+
+</style>
+
+<script>
+    $(".clicky").on('click', function () {
+        var input = $(".number1");
+        var input2 = $(".number2");
+        var search = parseInt(input.val());
+        var search2 = parseInt(input2.val());
+        var finalSearch = [search,search2];
+
+            $(".result").html(" ");
+
+            function smallestCommons(arr) {
+                //Sort the array from smallest to largest
+                var sortedArr = arr.sort(function (a, b) {
+                    return a - b;
+                });
+                //LCM which leaves 0 when divided by all numbers in the range
+                var LCM = 0;
+                //Smallest multiple will always be the highest number
+                var largestNum = sortedArr[1];
+
+
+                while (LCM === 0) {
+                    //Get all the numbers between the 2 numbers being passed as arguments 
+                    for (var i = sortedArr[0]; i <= sortedArr[1]; i++) {
+                        if (largestNum % i !== 0) {
+                            //if a value in our set is not divisible then skip to next multiple
+                            break;
+                        }
+                        if (i == sortedArr[1]) {
+                            //if we make it all the way to the last value then we know (sortedArr[1]) is divisible into all values in our range 
+                            LCM = largestNum;
+                        }
+                    }
+                    //Move on to the next multiple which we can get to by just adding the highest number
+                    largestNum += sortedArr[1];
+                }
+
+                $("#result").append(LCM);
+            }
+
+            smallestCommons(finalSearch);
+         
+        });
+    
+
+</script>

@@ -1,0 +1,58 @@
+﻿@model anotherTest.Models.ContactModels
+@{
+    ViewBag.Title = "Contact";
+}
+<h1>@ViewBag.Title</h1>
+<hr />
+
+<h3>Profiles</h3>
+<address>
+    <span><a target="_blank" href="https://www.linkedin.com/in/david-luke-a0b40779">LinkedIn</a> | </span>
+    <span><a target="_blank" href="https://codepen.io/dluke345/">CodePen</a> | </span>
+    <span><a target="_blank" href="https://github.com/dluke345">GitHub</a> | </span>
+    <span><a target="_blank" href="https://www.freecodecamp.com/dluke345">FreeCodeCamp</a> | </span>
+    <span><a target="_blank" href="https://www.codewars.com/users/dluke345">CodeWars</a> | </span>
+    <span><a target="_blank" href="https://app.pluralsight.com/profile/david-luke2">PluralSight</a></span>
+</address>
+
+<h3>Contact Me</h3>
+<div class="contactPage">
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            @Html.LabelFor(model => model.FirstName, "*First Name", new { @class = "col-md-2 col-xs-12 control-label" })
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                @Html.EditorFor(model => model.FirstName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FirstName)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.LastName, "Last Name", new { @class = "col-md-2 col-xs-12 control-label" })
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                @Html.EditorFor(model => model.LastName, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, "*Email", new { @class = "col-md-2 col-xs-12 control-label" })
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                @Html.EditorFor(model => model.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Email)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Comment, "*Comment", new { @class = "col-md-2 col-xs-12 control-label" })
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                @Html.EditorFor(model => model.Comment, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Comment)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-2">
+                <input type="submit" class="btn btn-default" value="submit" />
+            </div>
+        </div>
+    }
+</div>

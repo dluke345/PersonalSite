@@ -1,0 +1,129 @@
+﻿
+@{
+    ViewBag.Title = "ProfileLookup";
+}
+
+<h1>Profile Lookup</h1>
+<h3>A function that takes firstName and a property as arguments and returns the value of the property.</h3>
+
+<div class="wrapper">
+    <p>Type in a first name and property from the provided array.</p>
+    <div class="codeBlock">
+        var contacts = [<br/>
+        {
+        "firstName": "Luke",
+        "lastName": "SkyWalker",
+        "number": "0543236543",
+        "likes": ["LightSabers", "Coding", "Brownie Points"]
+        },<br />
+        {
+        "firstName": "Harry",
+        "lastName": "Potter",
+        "number": "0994372684",
+        "likes": ["Hogwarts", "Magic", "Hagrid"]
+        },<br />
+        {
+        "firstName": "Sherlock",
+        "lastName": "Holmes",
+        "number": "0487345643",
+        "likes": ["Intriguing Cases", "Violin"]
+        },<br />
+        {
+        "firstName": "Obi Wan",
+        "lastName": "Kenobi",
+        "number": "unknown",
+        "likes": ["Fighting", "The Force", "LightSabers"]
+        }<br/>
+        ];
+    </div><br />
+    <input class="fName" type="text" placeholder="FirstName" />
+    <p>Example input: Harry</p>
+    <input class="pName" type="text" placeholder="Property" />
+    <p>Example input: likes</p>
+    <button class="clicky" type="submit">Submit</button>
+    <br />
+    <div>
+        <p id="result" class="result"></p>
+    </div>
+</div>
+
+<style>
+    .wrapper {
+        max-width: 500px;
+        width: 100%;
+        text-align: center;
+        position: relative;
+        margin: 8% auto auto auto;
+    }
+</style>
+
+<script>
+
+    //Setup
+    var contacts = [
+        {
+            "firstName": "Luke",
+            "lastName": "SkyWalker",
+            "number": "0543236543",
+            "likes": ["LightSabers", "Coding", "Brownie Points"]
+        },
+        {
+            "firstName": "Harry",
+            "lastName": "Potter",
+            "number": "0994372684",
+            "likes": ["Hogwarts", "Magic", "Hagrid"]
+        },
+        {
+            "firstName": "Sherlock",
+            "lastName": "Holmes",
+            "number": "0487345643",
+            "likes": ["Intriguing Cases", "Violin"]
+        },
+        {
+            "firstName": "Obi Wan",
+            "lastName": "Kenobi",
+            "number": "unknown",
+            "likes": ["Fighting", "The Force", "LightSabers"]
+        }
+    ];
+
+    $(".clicky").on('click', function () {
+        var input = $(".fName");
+        var input2 = $(".pName");
+        var search = input.val();
+        var search2 = input2.val();
+        console.log(search);
+        if (search !== undefined || search !== "" || search !== null) {
+            $(".result").html(" ");
+
+            function lookUpProfile(firstName, prop) {
+                // Only change code below this line
+                var result = "";
+
+
+                for (var i = 0; i < contacts.length; i++) {
+                    if (contacts[i].firstName == firstName) {
+                        if (contacts[i].hasOwnProperty(prop)) {
+                            $(".result").html(contacts[i][prop]);
+                            break;
+                        }
+                        else {
+                            $(".result").html("No such property");
+                            break;
+                        }
+                    }
+                    else {
+                        result = "No such contact";
+                    }
+                    $(".result").html(result);
+                }
+                
+
+                // Only change code above this line
+            }
+
+            // Change these values to test your function
+            lookUpProfile(search, search2);
+        }
+        });
+</script>

@@ -1,0 +1,141 @@
+﻿
+@{
+    ViewBag.Title = "IGN";
+}
+
+<h1>IGN</h1>
+<h3>This program uses the IGN API.</h3>
+
+<div class="wrapper">
+    <h1>IGN Articles/Videos</h1>
+    <div class="buttons">
+        <button onClick="showVideos()" class="video">Videos</button>
+        <button class="article" onClick="showArticles()">Articles</button>
+    </div>
+    <div class="videos">
+        <p>Click on image to go to video page.</p>
+    </div>
+    <div class="articles">
+    </div>
+    @*<button onClick="viewMore()" class="viewMore">View more...</button>*@
+</div>
+
+<style>
+    .wrapper {
+  max-width: 700px;
+  width: 100%;
+  text-align:center;
+  position: relative;
+  margin: 4% auto auto auto;
+}
+
+.section {
+  background-color: lightgrey;
+  margin-bottom: 5px;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.section:hover {
+  cursor: pointer;
+  background-color:black;
+  color:white;
+}
+
+.title {
+  display: inline-block;
+  margin: 0;
+}
+
+.number {
+  float: left;
+}
+
+.description {
+  margin: 0;
+  display:inline-block;
+}
+
+.time {
+  float:right;
+}
+</style>
+
+<script>
+    function showVideos() {
+        $(".articles").hide();
+        $(".videos").show();
+    }
+
+    function showArticles() {
+        $(".videos").hide();
+        $(".articles").show();
+    }
+
+    $(document).ready(function () {
+        var indexNumber = 1;
+        var countNumber = 10;
+        $(".articles").hide();
+        $.ajax({
+            type: 'GET',
+            url: 'http://ign-apis.herokuapp.com/videos?startIndex=' + indexNumber + '&count=' + countNumber,
+            dataType: 'JSONP',
+            success: function (response) {
+                var data = response.data;
+                var num = 0;
+                data.forEach(function (element) {
+                    num++;
+                    var title = element.metadata.name;
+                    var description = element.metadata.description;
+                    var seconds = element.metadata.duration % 60;
+                    if (seconds === 0) {
+                        seconds = "00";
+                    }
+                    if (seconds.toString().length === 1) {
+                        seconds = 0 + "" + seconds;
+                    }
+                    var minutes = element.metadata.duration / 60;
+                    minutes = minutes.toString().slice(0, 1);
+                    var length = minutes + ":" + seconds;
+                    var displayImage = element.thumbnails[2].url;
+                    var url = element.metadata.url;
+                    $(".videos").append("<div class='section " + num + "'><span class='number'>" + num + "</span><span class='time'>" + length + "</span><br/><h3 class='title'>" + title + "</h3><br/><p class='description'>" + description + "</p><br/><a href='" + url + "' target='_blank'><img class='Image " + num + "' style='width:100%;max-width:300px;display:none;' src='" + displayImage + "' /></a></div>");
+
+                    $("." + num).click(function () {
+                        $(this).find(".Image").toggle("slow", "linear");
+                    });
+
+                });// End forEach
+
+            } //End ajax success
+
+        }); //End ajax
+
+    }); //End document ready
+
+
+
+    $.ajax({
+        type: 'GET',
+        url: 'http://ign-apis.herokuapp.com/articles?startIndex=1&count=10',
+        dataType: 'JSONP',
+        success: function (response) {
+            var data = response.data;
+            var num = 0;
+            data.forEach(function (element) {
+                num++;
+                var title = element.metadata.headline;
+                var subHead = element.metadata.subHeadline;
+                var picture = element.thumbnails[2].url;
+                var date = element.metadata.publishDate.slice(0, 10);
+
+                $(".articles").append("<div class='section " + num + "'><span class='number'>" + num + "</span><span class='time'>" + date + "</span><br/><h3 class='title'>" + title + "</h3><br/><p class='description'>" + subHead + "</p><br/><img class='ArticleImage " + num + "' style='width:100%;max-width:300px;display:none;' src='" + picture + "' /></div>");
+
+                $("." + num).click(function () {
+                    $(this).find(".ArticleImage").toggle("slow", "linear");
+                });
+
+            });
+        }
+    }); //End ajax
+</script>

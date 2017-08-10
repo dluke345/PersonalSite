@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewBag.Title = "PigLatin";
+}
+
+<h1>Pig Latin</h1>
+<h3>Translate words to Pig Latin.</h3>
+
+<div class="wrapper">
+    <p>Type in just 1 word. Currently not built to take more than 1 word.</p>
+    <input class="pigLatin" type="text" placeholder="Enter Word" onkeypress="return isString(event)" />
+    <button class="clicky" type="submit">Translate</button>
+    <br/>
+    <p class="result"></p>
+</div>
+
+<style>
+    .wrapper {
+        max-width: 500px;
+        width: 100%;
+        text-align: center;
+        position: relative;
+        margin: 8% auto auto auto;
+    }
+</style>
+
+
+<script>
+    $(".pigLatin").keypress(function (e) {
+        var key = e.which;
+        if (key == 13)  // the enter key code
+        {
+            $(".clicky").click();
+        }
+    });
+
+    $(".clicky").on('click', function () {
+        var input = $("input");
+        var search = input.val();
+        var test = search.split(" ");
+        if(test.length < 2) {
+            if (search !== undefined || search !== "" || search !== null) {
+                $(".result").html(" ");
+            function translatePigLatin(str) {
+                var vowels = ["a", "e", "i", "o", "u"];
+                var vowels2 = /[aeiou]/g;
+                var firstConst = "";
+                var afterVowel = "";
+                var result = "";
+
+                if (str.slice(0, 1).match(vowels2)) {
+                    result = str + "way";
+                }
+                else {
+                    for (var i = 0; i < str.length; i++) {
+                        if (vowels.indexOf(str[i]) > -1) {
+                            firstConst = str.slice(0, i);
+                            afterVowel = str.slice(i, str.length);
+                            break;
+                        }
+                    }
+                    result = afterVowel + firstConst + "ay";
+                }
+
+                $(".result").append(result);
+
+            }
+
+            translatePigLatin(search);
+        }
+        }
+    });
+</script>

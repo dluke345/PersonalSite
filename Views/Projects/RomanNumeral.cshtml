@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewBag.Title = "RomanNumeral";
+}
+
+<h1>Roman Numeral Converter</h1>
+<h3>Convert a number to a Roman Numeral.</h3>
+
+<div class="wrapper">
+    <p>Type in a number.</p>
+    <input class="romanN" type="text" placeholder="Enter a number" onkeypress="return isNumber(event)" />
+    <button class="clicky" type="submit">Convert Number</button>
+    <br />
+    <div>
+        <p id="result" class="result"></p>
+    </div>
+</div>
+
+<style>
+    .wrapper {
+        max-width: 500px;
+        width: 100%;
+        text-align: center;
+        position: relative;
+        margin: 8% auto auto auto;
+    }
+</style>
+
+<script>
+
+    $(".romanN").keypress(function (e) {
+        var key = e.which;
+        if (key == 13)  // the enter key code
+        {
+            $(".clicky").click();
+        }
+    });
+
+    $(".clicky").on('click', function () {
+        var input = $("input");
+        var search = input.val();
+        var newNum = parseInt(search);
+        if (search !== "" && typeof newNum == "number") {
+            $(".result").html(" ");
+
+            function convertToRoman(num) {       
+
+                var result = "";
+                var decimal = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];
+                var roman = ["M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"];
+                for (var i = 0; i < decimal.length; i++)
+
+                {
+                    while (num % decimal[i] < num)
+
+                    {
+                        result += roman[i];
+                        num -= decimal[i];
+                    }
+
+                }
+
+
+                $(".result").append(result);
+            }
+
+            convertToRoman(newNum);
+        }
+    });
+</script>

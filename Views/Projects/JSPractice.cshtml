@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewBag.Title = "JSPractice";
+}
+
+<h1>JS Practice</h1>
+
+
+<div class="wrapper">
+    <h1>You Don't Know JS Exercise</h1>
+    <p>
+        Write a program to calculate the total price of your phone purchase. You will keep purchasing phones until you run out of money in your bank
+        account. You'll also buy accessories for each phone as long as your purcahse amount is below your mental spending threshold.
+    </p>
+    <button class="button">Click here to run program.</button>
+    <p class="note">Note: clicking this button will prompt the user to enter values before displaying a result.</p>
+    <div class="outPut">
+        <div class="phoneAccessory">
+            <p><strong>Phone Accessories Purchased:</strong></p>
+        </div>
+        <div class="phonePurcahse">
+            <p><strong>Total Purchase Price(includes phone accessory if bought):</strong></p>
+        </div>
+    </div>
+
+</div>
+
+
+<style>
+    .wrapper {
+  max-width: 500px;
+  width: 100%;
+  text-align:center;
+  position: relative;
+  margin: 4% auto auto auto;
+}
+
+.phoneAccessory, .phonePurcahse {
+  width: 49%;
+  display:inline-block;
+}
+.note {
+    font-size: .8em;
+    font-style:italic;
+    color:red;
+}
+</style>
+
+
+<script src="~/Scripts/JSPractice.js"></script>

@@ -1,0 +1,88 @@
+﻿
+@{
+    ViewBag.Title = "ROT13";
+}
+
+<h1>ROT13</h1>
+<h3>This is a caesar cipher aka a shift cipher algorithm, click <a href="https://en.wikipedia.org/wiki/ROT13" target="_blank">here</a> for more information.</h3>
+
+<div class="wrapper">
+    <p>Type in a sentence or just a word.</p>
+    <input class="rot13" type="text" placeholder="Encode Text" />
+    <button class="clicky" type="submit">Encode/Decode</button>
+    <br/>
+    <div>
+        <p id="result" class="result"></p>
+    </div>
+    <button class="decode">Copy result to input to decode</button>
+</div>
+
+<style>
+    .wrapper {
+  max-width: 500px;
+  width: 100%;
+  text-align:center;
+  position: relative;
+  margin: 8% auto auto auto;
+}
+    .decode {
+        display:none;
+    }
+</style>
+
+<script>
+    $(".rot13").keypress(function (e) {
+        var key = e.which;
+        if (key == 13)  // the enter key code
+        {
+            $(".clicky").click();
+        }
+    });
+
+    $(".clicky").on('click', function () {
+        var input = $("input");
+        var search = input.val();
+        if (search !== undefined || search !== "" || search !== null) {
+            $(".result").html(" ");
+            $('.decode').show();
+            //A = 65 and Z= 90
+            function rot13(str) {
+                var blah = str.toUpperCase(),
+                    stringArray = blah.split("");
+                var result = "";
+
+                for (var i = 0; i < stringArray.length; i++) {
+                    if (stringArray[i].charCodeAt() < 78 && stringArray[i].charCodeAt() > 64) {
+                        result += stringArray[i].charCodeAt() + 13 + " ";
+                    }
+                    else if (stringArray[i].charCodeAt() > 77 && stringArray[i].charCodeAt() < 91) {
+                        result += stringArray[i].charCodeAt() - 13 + " ";
+                    }
+                    else {
+                        result += stringArray[i].charCodeAt() + " ";
+                    }
+                }
+
+                result = result.slice(0, result.length - 1);
+                result = result.split(" ");
+
+                var finalresult = "";
+
+                for (var j = 0; j < result.length; j++) {
+                    finalresult += String.fromCharCode(result[j]);
+                }
+
+                $(".result").append(finalresult);
+            }
+            rot13(search);
+        }
+    });
+
+    $(".decode").on('click', function () {
+        var text = document.getElementById("result").innerHTML;
+        text = text.slice(1, text.length);
+        var input = $("input");
+        input.val(text);
+        $('.decode').hide();
+    });
+</script>

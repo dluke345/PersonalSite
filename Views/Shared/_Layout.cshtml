@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,maximum-scale=1,initial-scale=1" />
+    <meta name="description" content="David Luke .Net/Web Developer" />
+    <meta name="keywords" content="David Luke, .Net Developer, Web Developer, Software Enginner, Javascript Developer, Front End Developer, Developer" />
+    <title>David Luke Web Developer</title>
+
+    <!-- FAVICONS -->
+    <link rel="apple-touch-icon" sizes="180x180" href="~/content/images/Favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="~/content/images/Favicons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="~/content/images/Favicons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="~/content/images/Favicons/manifest.json">
+    <link rel="mask-icon" href="~/content/images/Favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Styles -->
+    @Styles.Render("~/Content/bootstrap")
+    @Styles.Render("~/Content/Site.css")
+    @Styles.Render("~/Content/stylish-portfolio.css")
+    @Styles.Render("~/Content/font-awesome/css/font-awesome.min.css")
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- Scripts -->
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body onload="animateFunction()">
+    <!--
+    <div id="loader">The Sky Developer<br/><span class="loadingMessage">Loading...</span><br /><div class="finishedBar"><div class="loadingBar"></div></div><div class="numCount"></div></div>
+    <div id="wrapper" class="animate" style="display: none;">
+        -->
+
+
+        <!-- Navigation -->
+        <a id="menu-toggle" href="#" class="btn btn-dark btn-lg toggle"><i class="fa fa-bars"></i></a>
+        <nav id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <a id="menu-close" href="#" class="btn btn-light btn-lg pull-right toggle"><i class="fa fa-times"></i></a>
+                <li class="sidebar-brand">
+                    <a href="#top" onclick=$("#menu-close").click();>The Sky Developer</a>
+                </li>
+                <li>
+                    <a href="#top" onclick=$("#menu-close").click();>Home</a>
+                </li>
+                <li>
+                    <a href="#about" onclick=$("#menu-close").click();>About</a>
+                </li>
+                <li>
+                    <a href="#services" onclick=$("#menu-close").click();>Projects</a>
+                </li>
+                <li>
+                    <a href="#callout" onclick=$("#menu-close").click();>Skills</a>
+                </li>
+                <li>
+                    <a href="#portfolio" onclick=$("#menu-close").click();>Resume</a>
+                </li>
+                <li>
+                    <a href="#contact" onclick=$("#menu-close").click();>Contact</a>
+                </li>
+            </ul>
+        </nav>
+
+
+
+
+<!-- OLD CONTENT ************
+
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("Luke Sky Developer", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Projects <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("PI Day", "PIDay", "Projects")</li>
+                                <li>@Html.ActionLink("JS Practice", "JSPractice", "Projects")</li>
+
+                                <li class="dropdown-submenu">
+                                    <a class="test" tabindex="-1" href="#">APIs <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li>@Html.ActionLink("Random Quote Machine API", "RandomQuoteMachine", "Projects")</li>
+                                        <li>@Html.ActionLink("Local Weather API", "LocalWeather", "Projects")</li>
+                                        <li>@Html.ActionLink("Wikipedia Viewer API", "WikipediaViewer", "Projects")</li>
+                                        <li>@Html.ActionLink("Twitch TV API", "TwitchTv", "Projects")</li>
+                                        <li>@Html.ActionLink("IGN API", "IGN", "Projects")</li>                                    
+                                    </ul>
+                                </li>
+
+                                <li class="dropdown-submenu">
+                                    <a class="test" tabindex="-1" href="#">Algorithms <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li>@Html.ActionLink("ROT13", "ROT13", "Projects")</li>
+                                        <li>@Html.ActionLink("Pig Latin", "PigLatin", "Projects")</li>
+                                        <li>@Html.ActionLink("Roman Numeral", "RomanNumeral", "Projects")</li>
+                                        <li>@Html.ActionLink("Least Common Multiple", "LeastCommonMultiple", "Projects")</li>
+                                        <li>@Html.ActionLink("Fibonacci Numbers", "FibonacciNumbers", "Projects")</li>
+                                        <li>@Html.ActionLink("Profile Lookup", "ProfileLookup", "Projects")</li>
+                                    </ul>
+                                </li>
+
+                                <li class="dropdown-submenu">
+                                    <a class="test" tabindex="-1" href="#">React Projects <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a tabindex="-1" href="~/ReactProjects/MultipleChoiceQuiz/index.html">Multiple Choice Quiz</a></li>
+                                        <li><a tabindex="-1" href="~/ReactProjects/TicTacToe/index.html">Tic Tac Toe</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="/AngularProjects/tourofheroes/index.html" target="_blank">Angular 2 Project</a></li>
+                            </ul>
+                        </li>
+
+                        <li>@Html.ActionLink("Resume", "Resume", "Home")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        -->
+
+
+
+            @RenderBody()
+
+        <div class="footer">
+            <footer>
+                <p style="font-weight:bold;font-size:1.1em;">David Luke</p>
+                <p>Copyright &copy; @DateTime.Now.Year lukeskydeveloper.com</p>
+            </footer>
+        </div>
+        <a id="to-top" href="#top" class="btn btn-dark btn-lg"><i class="fa fa-chevron-up fa-fw fa-1x"></i></a>
+
+    <!--
+    </div>
+        -->
+
+
+    <!-- Scripts -->
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Content/Scripts/Custom.js")
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

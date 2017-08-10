@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<div class="homeWrapper">
+
+    <div class="homeMe">
+        <strong>
+            <p>Hello, my name is David Luke, I am a web developer working in the Kansas/Missouri area. I am currently seeking a new opportunity to expand on my skill set.</p>
+            <p>My skills are currently stronger in front end development but I am eager to learn more about the backend.</p>
+            <p>Site is under going construction.</p>
+        </strong>
+        <img class="myPic" src="~/Content/images/me.jpg" />
+        <br /><br />
+        <a class="btn btn-primary" href="/home/contact">Contact Me</a>
+    </div>
+
+
+    <hr />
+    
+
+
+    <div class="homePromos">
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <a class="promo promo1 hvr-underline-reveal" href="/Home/Projects">Projects</a>
+            </div>
+            <!--<div class="col-md-6 col-sm-12">
+                <a class="promo promo2 hvr-underline-reveal" href="/Home/WorkProjects">Work Projects</a>
+            </div>-->
+            <div class="col-md-6 col-sm-12">
+                <a class="promo promo3 hvr-underline-reveal" href="/Home/Resume">Resume</a>
+            </div>
+        </div>
+        <div class="row">
+            <!--<div class="col-md-6 col-sm-12">
+                <a class="promo promo3 hvr-underline-reveal" href="/Home/Resume">Resume</a>
+            </div>-->
+            <div class="col-md-12 col-sm-12">
+                <a class="promo promo4 hvr-underline-reveal" href="/Home/Contact">Contact</a>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>   
+
+@Scripts.Render("~/Scripts/Particle.js")

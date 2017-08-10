@@ -1,0 +1,103 @@
+﻿
+@{
+    ViewBag.Title = "WikipediaViewer";
+}
+
+<h1>WikipediaViewer</h1>
+<h3>Using the Wiki API.</h3>
+
+<div class="wrapper">
+    <h1>Search Wikipedia</h1>
+    <div class="wiki">
+        <button><a class="searchRandom" href="https://en.wikipedia.org/wiki/Special:Random" target="_blank">Click here for random wiki article</a></button>
+        <br /><br />
+        <input class="searchWiki" type="text" placeholder="Search Wiki" />
+        <button id="searchBtn" type="submit">Search</button>
+        <div class="error"></div>
+        <br />
+
+    </div>
+
+</div>
+
+<div class="searchResults"></div>
+
+<style>
+    .wrapper {
+  max-width: 500px;
+  width: 100%;
+  text-align:center;
+  position: relative;
+  margin: 4% auto auto auto;
+}
+
+.searchResults {
+  max-width: 800px;
+  width: 100%;
+  position: relative;
+  margin: 1% auto auto auto;
+}
+
+.searchRandom {
+  text-decoration: none;
+  color:blue; 
+}
+
+button {
+  cursor: pointer;
+}
+
+.section {
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: lightgray;
+  padding: 5px;
+  margin-bottom: 5px;
+}
+
+.section a:hover {
+  text-decoration: underline;
+}
+
+.section a {
+  text-decoration: none;
+  color: black;
+}
+
+.title {
+  font-size: 2em;
+}
+</style>
+
+<script>
+    $(".searchWiki").keypress(function (e) {
+        var key = e.which;
+        if (key == 13)  // the enter key code
+        {
+            $("#searchBtn").click();
+        }
+    });
+
+    $("#searchBtn").on('click', function () {
+        var input = $("input");
+        var search = input.val();
+        if (search !== undefined || search !== "" || search !== null) {
+            $(".searchResults").html(" ");
+            $.ajax({
+                method: "GET",
+                url: "https://en.wikipedia.org/w/api.php?action=query&format=json&errorformat=none&prop=extracts&meta=&generator=search&callback=JSON&exsentences=2&exlimit=10&exintro=1&explaintext=1&gsrsearch=" + search + "&gsrnamespace=*&gsrlimit=10",
+                dataType: 'jsonp',
+                success: function (response) {
+                    var pages = response.query.pages;
+                    $.each(pages, function (key, value) {
+                        $(".searchResults").append("<div class='section'><a href='https://en.wikipedia.org/?curid=" + value.pageid + "' target='_blank'><p class='title'><strong>" + value.title + "</strong></p><p class='description'>" + value.extract + "</p></a></div>");
+                    });
+                }
+            });
+
+        }
+        else {
+            $(".error").text("Please enter a valid value");
+        }
+    });
+</script>

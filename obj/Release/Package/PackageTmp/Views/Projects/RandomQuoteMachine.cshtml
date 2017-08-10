@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "Random Quote Machine";
+}
+<h1>@ViewBag.Title</h1>
+<h3>Using a quote API.</h3>
+
+<div class="wrapper">
+    <div class="quote">
+
+    </div>
+
+    <div class="author">
+
+    </div>
+    <a class="quoteLink btn btn-default" href="" target="_blank">Go To Quote Link</a>
+    <a class="changeQuote btn btn-default">Get Random Quote</a>
+    <a class="tweetQuote btn btn-default" href="" target="_blank">Tweet Quote</a>
+</div>
+
+<div class="message"></div>
+
+<style>
+    * {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.wrapper {
+  max-width: 500px;
+  width: 100%;
+  text-align:center;
+  position: relative;
+  margin: 8% auto auto auto;
+}
+
+.quote {
+  background-color: lightgray;
+  border-radius: 10px;
+  padding: 1em;
+}
+
+.author {
+  font-style: italic;
+  padding: 1%;
+}
+
+.quoteLink, .tweetQuote {
+  text-decoration:none;
+  color:black;
+}
+</style>
+
+<script>
+    $(window).load(function () {
+        $.getJSON("http://quotesondesign.com/wp-json/posts?filter[orderby]=rand", function (json) {
+            $(".quote").html(json[0].content);
+            $(".author").html(json[0].title + " - ID " + json[0].ID);
+            $(".quoteLink").attr('href', json[0].link);
+            $('.tweetQuote').attr('href', "http://twitter.com/intent/tweet?hashtags=quotes&text=" + encodeURIComponent($(".quote").text() + " -" + json[0].title));
+            console.log($(".quote").text());
+        });
+        $(".changeQuote").click();
+    });
+
+    $(".changeQuote").on('click', function () {
+        $.ajax({
+            dataType: "json",
+            url: 'http://quotesondesign.com/wp-json/posts?filter[orderby]=rand',
+            success: function (post) {
+                var newPost = post.shift();
+                $(".quote").html(newPost.content);
+                $(".author").html(newPost.title + " - ID " + newPost.ID);
+                $(".quoteLink").attr('href', newPost.link);
+                $('.tweetQuote').attr('href', "http://twitter.com/intent/tweet?hashtags=quotes&text=" + encodeURIComponent($(".quote").text() + " -" + newPost.title));
+            },
+            //cache had to be disabled for this to work.
+            cache: false
+        });
+    });
+
+    
+</script>

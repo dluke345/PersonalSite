@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Animal Quiz</title>
+        <meta name="viewport" content="width=device-width,maximum-scale=1,initial-scale=1" />
+		<link href="thirdparty/css/bootstrap.css" rel="stylesheet">
+		<link href="css/custom.css" rel="stylesheet">
+	</head>
+	<body>
+		<div id="header">
+			<div class="container">
+                <a href="/">Back to website</a>
+				<h1>Animal Quiz</h1>
+				<p>Select the type of animal from the picture below</p>
+                <p style="color:red;font-size:.9em;">You may get the same picture multiple times in a row due to the randomization of the program.</p>
+			</div>
+		</div>
+
+		<div id="app"></div>
+
+		<div id="footer">
+			<div class="container">
+				<p class="">All images are from <a target="_blank" href="https://www.google.com/">Google</a> and are in the public domain</p>
+			</div>
+		</div>
+
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+		<script src="thirdparty/js/bootstrap.js"></script>
+		<script src="https://fb.me/react-0.14.7.js"></script>
+	    <script src="https://fb.me/react-dom-0.14.7.js"></script>
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+	    <script src="js/underscore.js" type="text/javascript"></script>
+	    <script src="js/routie.js" type="text/javascript"></script>
+
+
+		<script type="text/babel">
+				"use strict";
+
+				var Quiz = React.createClass({
+					propTypes: {
+						data: React.PropTypes.array.isRequired
+					},
+					getInitialState: function () {
+						return _.extend({
+							bgClass: 'neutral',
+							showContinue: false
+						}, this.props.data.selectGame());
+					},
+					handleAnimalSelected: function (title){
+						var isCorrect = this.state.checkAnswer(title);
+						this.setState({
+							bgClass: isCorrect ? 'pass' : 'fail',
+							showContinue: isCorrect
+						});
+					},
+
+					handleContinue: function () {
+						this.setState(this.getInitialState());
+					},
+
+					handleAddGame: function () {
+						routie('add');
+					},
+					render: function () {
+						return (<div>
+							<div className="row">
+									<div className="col-md-5">
+										<img src={this.state.animal.imageUrl} className="animalImage col-md-3" />
+									</div>
+									<div className="col-md-6">
+										{this.state.animals.map(function (b) {
+											return <AnimalType onAnimalSelected={this.handleAnimalSelected} title={b} />;
+										}, this)}
+									</div>
+									<div className={"col-md-1 " + this.state.bgClass}></div>
+								</div>
+								{this.state.showContinue ? (
+								<div className="row">
+									<div className="col-md-12">
+										<input onClick={this.handleContinue} type="button" value="Continue" className="btn"/>
+									</div>
+								</div>) : <span/>
+								}
+								<div className="row">
+									<div className="col-md-12">
+										<input onClick={this.handleAddGame} id="addGameBtn" type="button" value="Add Game" className="btn" />
+									</div>
+								</div>
+							</div>
+							);
+					}
+				});
+
+				var AnimalType = React.createClass({
+					propTypes: {
+						title: React.PropTypes.string.isRequired
+					},
+					handleClick: function () {
+						this.props.onAnimalSelected(this.props.title);
+					},
+					render: function () {
+						return <div onClick={this.handleClick} className="answer"><h4>{this.props.title}</h4></div>;
+					}
+				});
+
+				var AddGameForm = React.createClass({
+					propTypes: {
+						onGameFormSubmitted: React.PropTypes.func.isRequired
+					},
+					handleSubmit: function () {
+						this.props.onGameFormSubmitted(getRefs(this));
+						return false;
+					},
+					render: function () {
+						return (<div className="row">
+							<div className="col-md-12">
+								<h1>Add Game</h1>
+								<form role="form" onSubmit={this.handleSubmit}>
+									<div className="form-group">
+										<input ref="imageUrl" type="text" className="form-control" placeholder="Image Url" />
+									</div>
+									<div className="form-group">
+										<input ref="answer1" type="text" className="form-control" placeholder="Answer 1" />
+									</div>
+									<div className="form-group">
+										<input ref="answer2" type="text" className="form-control" placeholder="Answer 2" />
+									</div>
+									<div className="form-group">
+										<input ref="answer3" type="text" className="form-control" placeholder="Answer 3" />
+									</div>
+									<div className="form-group">
+										<input ref="answer4" type="text" className="form-control" placeholder="Answer 4" />
+									</div>
+									<div className="form-group">
+										<input ref="answer5" type="text" className="form-control" placeholder="Answer 5" />
+									</div>
+									<div className="form-group">
+										<input ref="answer6" type="text" className="form-control" placeholder="Answer 6" />
+									</div>
+									<button type="submit" className="btn btn-default">Submit</button>
+								</form>
+							</div>
+						</div>);
+					}
+				});
+
+				var data = [
+					{
+						name: 'Fish',
+						imageUrl: 'images/hammerheadshark.jpg',
+						imageSource: '',
+						imageAttribution: '',
+						animals: ['Hammer Head Shark']
+					},
+					{
+						name: 'Mammal',
+						imageUrl: 'images/elephant.jpg',
+						imageSource: '',
+						imageAttribution: '',
+						animals: ['Elephant']
+					},
+					{
+						name: 'Reptile',
+						imageUrl: 'images/ballpython.jpg',
+						imageSource: '',
+						imageAttribution: '',
+						animals: ['Ball Python']
+					},
+					{
+						name: 'Reptile',
+						imageUrl: 'images/snappingturtle.jpg',
+						imageSource: '',
+						imageAttribution: '',
+						animals: ['Snapping Turtle']
+					},
+					{
+						name: 'Mammal',
+						imageUrl: 'images/westhighlandterrier.jpg',
+						imageSource: '',
+						imageAttribution: '',
+						animals: ['West Highland Terrier']
+					},
+					{
+						name: 'Mammal',
+						imageUrl: 'images/goldenEagle.jpg',
+						imageSource: '',
+						imageAttribution: '',
+						animals: ['Golden Eagle']
+					},
+					{
+						name: 'Mammal',
+						imageUrl: 'images/orca.jpg',
+						imageSource: '',
+						imageAttribution: '',
+						animals: ['Orca']
+					},
+					{
+						name: 'Mammal',
+						imageUrl: 'images/tarantula.jpg',
+						imageSource: '',
+						imageAttribution: '',
+						animals: ['Tarantula']
+					},
+					{
+						name: 'Mammal',
+						imageUrl: 'images/whiteTiger.jpg',
+						imageSource: '',
+						imageAttribution: '',
+						animals: ['White Tiger']
+					},
+					{
+						name: 'Mammal',
+						imageUrl: 'images/MaleNothobranchiusKadleci.jpg',
+						imageSource: '',
+						imageAttribution: '',
+						animals: ['Nothobranchius Kadleci']
+					}
+				];
+
+				var selectGame = function () {
+					var animals = _.shuffle(this.reduce(function (p, c, i) {
+						return p.concat(c.animals);
+					}, [])).slice(0,6);
+
+					var answer = animals[_.random(animals.length-1)];
+
+					return {
+						animals: animals,
+						animal: _.find(this, function (animal) {
+							return animal.animals.some(function (title) {
+								return title === answer;
+							});
+						}),
+
+						checkAnswer: function (title) {
+							return this.animal.animals.some(function (t) {
+								return t === title;
+							});
+						}
+					};
+				};
+
+				data.selectGame = selectGame;
+
+				routie({
+					'' : function () {
+						React.render(<Quiz data={data} />,
+							document.getElementById('app'));
+					},
+					'add' : function() {
+						React.render(<AddGameForm onGameFormSubmitted={handleAddFormSubmitted} />,
+							document.getElementById('app'));
+					}
+				});
+
+				function handleAddFormSubmitted(data) {
+					var quizData = [{
+						imageUrl: data.imageUrl,
+						animals: [data.answer1, data.answer2, data.answer3, data.answer4, data.answer5, data.answer6]
+					}];
+					quizData.selectGame = selectGame;
+					React.render(<Quiz data={quizData} />,
+						document.getElementById('app'));
+				}
+
+				function getRefs(component) {
+					var results = {};
+					Object.keys(component.refs).forEach(function (refName) {
+						results[refName] = component.refs[refName].getDOMNode().value;
+					});
+					return results;
+				}
+
+
+		</script>
+	</body>
+</html>

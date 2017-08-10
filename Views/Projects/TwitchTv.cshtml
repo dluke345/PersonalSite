@@ -1,0 +1,232 @@
+﻿
+@{
+    ViewBag.Title = "TwitchTv";
+}
+
+<div class="whiteBackground topHeader">
+    <h1>TwitchTv</h1>
+    <h3>Using the TwitchTv API to pull in specific streamers.</h3>
+</div>
+
+<div class="wrapper">
+    <div class="whiteBackground">
+        <h1>Twitch Streamers</h1>
+    </div>
+    <div class="buttons">
+        <button class="showAll button">All</button>
+        <button class="showOnline button">Online</button>
+        <button class="showOffline button">Offline</button>
+        <button class="showClosed button">Closed</button>
+    </div>
+
+    <div>
+        <button class="back">Back To Streams List</button>
+    </div>
+    <br />
+    <div class="data">
+
+    </div>
+    <div class="detailsView">
+
+    </div>
+</div>
+
+<style>
+.wrapper {
+  max-width: 1000px;
+  width: 100%;
+  text-align:center;
+  position: relative;
+  margin: 4% auto auto auto;
+}
+
+.game {
+  font-weight: bold;
+  display: inline-block;
+  padding-right: 10px;
+  max-width: 200px;
+  width:100%;
+}
+
+.channel {
+  display:inline-block;
+  max-width: 200px;
+  width:100%;
+}
+
+.followers {
+  display:inline-block;
+  max-width: 200px;
+  width:100%;
+}
+
+.mature {
+  display:inline-block;
+  max-width: 200px;
+  width:100%;
+}
+
+.closed {
+  color:red;
+}
+
+.img {
+  max-width:50px;
+  width:100%;
+  float:left;
+}
+
+#section {
+  padding: 10px;
+  border: 1px solid black;
+  margin-bottom: 10px;
+  background-color: #b8cca6;
+  min-height:70px;
+}
+
+.online:hover {
+  cursor: pointer;
+  box-shadow: 2px 2px 2px black;
+}
+
+.back{
+  display:none;
+}
+
+.offline, .closed {
+  display:none;
+}
+
+.banner {
+  width: 100%;
+  height:auto;
+}
+
+.padding {
+  padding: 10px;
+}
+
+img[src="null"] {
+  display:none;
+}
+
+.viewers, .game2 {
+  font-weight:bold;
+}
+.whiteBackground {
+    background-color: white;
+    padding: 10px;
+}
+</style>
+
+<script>
+    $('.showAll').on('click', function () {
+        $(".online, .offline, .closed").show();
+    });
+    $('.showOnline').on('click', function () {
+        $(".online").show();
+        $(".offline, .closed").hide();
+    });
+    $('.showOffline').on('click', function () {
+        $(".offline").show();
+        $(".online, .closed").hide();
+    });
+    $('.showClosed').on('click', function () {
+        $(".online, .offline").hide();
+        $(".closed").show();
+    });
+
+    $(document).ready(function () {
+        var channels = ["freecodecamp", "Starladder_CS_en", "fenyastrcsgo", "starladder1", "Moondye7", "TrU3Ta1ent", "DSPStanky", "C_a_k_e", "MkRR3", "tretgfdbvdgt", "summit1g", "DrDisRespectLIVE"];
+        var flags = ["https://upload.wikimedia.org/wikipedia/en/archive/f/f3/20120812153730%21Flag_of_Russia.svg", "http://www.publicdomainpictures.net/pictures/160000/velka/american-flag-1459201553ppe.jpg", "https://s-media-cache-ak0.pinimg.com/originals/1e/70/e1/1e70e1ad63954d0c30c2ed13c3876a14.jpg", "https://poland247.files.wordpress.com/2014/12/poland-flag1.jpg"];
+
+        function getData() {
+            $(".data, .button, .topHeader").show();
+            $('.back').hide();
+            $(".detailsView .details").remove();
+            $("#wrapper").css("background", "white");
+
+            channels.forEach(function (channel) {
+                $.ajax({
+                    method: 'GET',
+                    url: 'https://wind-bow.glitch.me/twitch-api/streams/' + channel,
+                    dataType: 'JSON',
+                    success: function (response) {
+                        var streamInfo = response.stream;
+
+                        if (streamInfo != null) {
+                            var game = response.stream.game,
+                                logo = response.stream.channel.logo,
+                                followers = response.stream.channel.followers,
+                                viewers = response.stream.viewers,
+                                totalViews = response.stream.channel.views,
+                                mature = response.stream.channel.mature,
+                                description = response.stream.channel.status,
+                                lang = response.stream.channel.broadcaster_language,
+                                banner = response.stream.channel.profile_banner;
+
+                            $(".data").append("<div id='section' class='online " + channel + "'><img class='img' src='" + logo + "' /><p class='channel'>" + channel + "</p><p class='game'>" + game + "</p><p class='followers'>Viewers: " + viewers + "</p><p class='mature'>Mature Audience: " + mature + "</p></div>");
+
+                            if (mature === true) {
+                                $("." + channel + " .mature").css("color", "red");
+                            }
+                        }
+
+                        else if (streamInfo === null) {
+                            $(".data").append("<div id='section' class='offline " + channel + "'><p class='channel'>" + channel + "</p><p class='game' style='font-style:italic'>Offline</p></div>");
+                        }
+
+                        $('.online.' + channel).on('click', function () {
+                            if (lang === "en") {
+                                $("#wrapper").css({ "background": "url(" + flags[1] + ") no-repeat", "background-size": "cover" });
+                                lang = "English";
+                            }
+                            if (lang === "ru") {
+                                $("#wrapper").css({ "background": "url(" + flags[0] + ") no-repeat", "background-size": "cover" });
+                                lang = "Russian";
+                            }
+                            if (lang === "de") {
+                                $("#wrapper").css({ "background": "url(" + flags[2] + ") no-repeat", "background-size": "cover" });
+                                lang = "German";
+                            }
+                            if (lang === "pl") {
+                                $("#wrapper").css({ "background": "url(" + flags[3] + ") no-repeat", "background-size": "cover" });
+                                lang = "Polish";
+                            }
+                            $(".data, .button, .topHeader").hide();
+                            $('.back').show();
+                            $(".online, .offline, .closed").remove();
+                            $(".detailsView").append("<div class='details'>" +
+                            "<div><img class='banner' src='" + banner + "' /></div>" +
+                            "<iframe src='https://www.twitch.tv/" + channel + "/embed' style='width:100%;height:500px;'></iframe>" +
+                            "<div class='whiteBackground'><h3>" + description + "</h3><p class='game2'>" + game + "</p><p class='viewers'>Watching Now: " + viewers + " | Total Views: " + totalViews + " | Followers: " + followers + " | Language: " + lang + "</p></div>" +
+                                                     "</div>");
+
+                        });
+
+
+                    }
+                });//end ajax
+
+                setTimeout(function () {
+                    $.ajax({
+                        method: 'GET',
+                        url: 'https://wind-bow.glitch.me/twitch-api/channels/' + channel,
+                        dataType: 'JSON',
+                        success: function (poop) {
+                            if (poop.error) {
+                                $("." + channel).replaceWith("<div id='section' class='closed'><p class='channel'>" + channel + "</p>Twitch Account Does Not Exist</div>");
+                            }
+                        }
+                    }); //end second ajax
+                }, 100);//end timeout
+            }); //end forEach
+        };
+        getData();
+
+        $('.back').on('click', function () {
+            getData();
+        });//end back click
+
+    });//end doc ready
+</script>

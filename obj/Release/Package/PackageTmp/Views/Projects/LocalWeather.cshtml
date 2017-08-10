@@ -1,0 +1,115 @@
+﻿
+@{
+    ViewBag.Title = "LocalWeather";
+}
+
+<h1>Local Weather</h1>
+<h3>Using a weather API.</h3>
+
+<div class="wrapper">
+    <h1>Weather App</h1>
+    <h2>Your Current Location and Weather</h2>
+    <div class="data">
+        <h4 class="countryCity"></h4>
+        <div class="temperature">
+            <span class="temp fahrenheit"></span>
+        </div>
+        <p class="humidity"></p>
+        <div class="icon">
+
+        </div>
+        <div class="mapHolder"></div>
+    </div>
+
+</div>
+
+<style>
+    .wrapper {
+        max-width: 500px;
+        width: 100%;
+        text-align: center;
+        position: relative;
+        margin: 4% auto auto auto;
+    }
+
+    .imageMap {
+        max-width: 400px;
+        width: 100%;
+    }
+
+    .temperature:hover {
+        cursor: pointer;
+    }
+</style>
+
+<script>
+    $(window).load(function () {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else {
+            $(".wrapper").html("Geolocation is not supported by this browser.");
+        }
+
+        function showPosition(position) {
+            var lat = position.coords.latitude;
+            var lon = position.coords.longitude;
+
+            var img_url = "https://maps.googleapis.com/maps/api/staticmap?center="
+            + lat + "," + lon + "&zoom=12&size=400x400&key=AIzaSyCfgF6h__baRbywp0eleigvpgiPRewlHf8";
+            $(".wrapper").append("<img class='imageMap' src='" + img_url + "'>");
+
+
+            $.ajax({
+                method: 'GET',
+                dataType: 'JSON',
+                url: 'http://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + '&APPID=50ca252734c25fd0b46134b657e5efde&units=metric',
+                success: function (response) {
+                    var celsius = Math.round(response.main.temp);
+                    var fahrenheit = Math.round(response.main.temp * 9 / 5 + 32);
+                    var humidity = response.main.humidity;
+                    var country = response.sys.country;
+                    var city = response.name;
+                    var weather = response.weather[0].description;
+                    //var weather2 = response.weather[0].main;
+                    var icon = "<img class='iconImg' src='http://openweathermap.org/img/w/" + response.weather[0].icon + ".png'></img>";
+                    $(".countryCity").html(city + ", " + country);
+                    $(".temp").html("Temperature: " + fahrenheit + " °F");
+                    $(".humidity").html("Humidity: " + humidity);
+                    $(".icon").html(icon + "<br/>" + weather);
+
+                    $(".temp").on("click", function () {
+                        if ($(".fahrenheit")[0]) {
+                            $(".temp").html("Temperature: " + celsius + " °C");
+                            $(".temp").removeClass("fahrenheit");
+                            $(".temp").addClass("celsius");
+                        }
+                        else if ($(".celsius")[0]) {
+                            $(".temp").html("Temperature: " + fahrenheit + " °F");
+                            $(".temp").removeClass("celsius");
+                            $(".temp").addClass("fahrenheit");
+                        }
+                    });
+                }
+            });
+        }
+
+
+
+        function showError(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    $(".wrapper").html("User denied the request for Geolocation. If you are using Chrome this will not work due to the new https rule for geolocation. Use firefox or IE.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    $(".wrapper").html("Location information is unavailable.");
+                    break;
+                case error.TIMEOUT:
+                    $(".wrapper").html("The request to get user location timed out.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    $(".wrapper").html("An unknown error occurred.");
+                    break;
+            }
+        }
+    });
+</script>
